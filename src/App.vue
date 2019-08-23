@@ -102,9 +102,9 @@
 import { log } from "util";
 export default {
   name: "app",
-  props: {
-    // source: String
-  },
+  // props: {
+  //   // source: String
+  // },
 
   data: () => ({
     drawer: null,
@@ -113,7 +113,7 @@ export default {
       { title: "Click Me" },
       { title: "Click Me" },
       { title: "Click Me 2" }
-    ]
+    ],
   }),
   methods: {
     goHome() {

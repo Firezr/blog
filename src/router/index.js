@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 import Index from '../components/index'
 
 import Write from '../components/admin/write'
+import List from '../components/admin/list'
 
 const router = new VueRouter({
     routes: [
@@ -18,7 +19,12 @@ const router = new VueRouter({
         path: '/admin/write',
         name: 'write',
         component: Write
-      }
+      },
+      {
+        path: '/admin/list',
+        name: 'list',
+        component: List
+      },
     ]
   })
 

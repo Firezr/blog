@@ -5,11 +5,13 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
+  // strict: true,
   state: {
     list: []
   },
   mutations: {
     getList(state,args){
+      // state.list.push(...args)
       state.list = args
     }
   },
@@ -28,6 +30,7 @@ const store = new Vuex.Store({
           // redirect: "follow", // manual, *follow, error
           // referrer: "no-referrer" // *client, no-referrer
         })).json()
+
       } catch (error) {
         throw error
       }
@@ -40,6 +43,7 @@ const store = new Vuex.Store({
         commit('getList',res.data)
 
       } catch (error) {
+        alert('提交失败')
         throw error
       }
     }

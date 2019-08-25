@@ -1,21 +1,16 @@
 <template>
   <div>
-    <mavon-editor v-model="value"/>
-    <!-- /**
-* :subfield="false"  ----- true： 双栏(编辑预览同屏)， false： 单栏(编辑预览分屏)
-* :defaultOpen="defaultData" ----- edit： 默认展示编辑区域 ， preview： 默认展示预览区域 , 其他 = edit
-* :toolbarsFlag="false" ----- 工具栏是否显示
-*/
-    -->
-    <mavon-editor
-      v-model="value"
-      :subfield="false"
-      :defaultOpen="defaultData"
-      :toolbarsFlag="false"
-      :boxShadow="false"
-      :editable = false
-      @change="changeData"
-    />
+    <form >
+      <p>choose a category:</p>
+      <div v-for="(item,i) in categorys" :key="i">
+        <input type="checkbox">
+        <span>{{item}}</span>
+      </div>
+      
+      <br>
+      <input type="text" placeholder="please type your title" v-model="title">  
+    </form>
+    <mavon-editor v-model="content"/>
     <v-btn @click="addBlog">add</v-btn>
   </div>
 </template>
@@ -25,23 +20,28 @@ import { log } from "util";
 export default {
   data() {
     return {
-      //value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
-      value: `1. 1\n2. 2\n3. 3\n`,
-      defaultData: "preview"
-
+      defaultData: "preview",
+      categorys:['JS','extra'],
+      title: '',
+      content: '',
+      
     };
   },
   methods: {
-    changeData(value, render) {
-      console.log(value);
-    },
+    // changeData(value, render) {
+    //   console.log(value);
+    // },
     async addBlog() {
       let blog = {
-        title:'1',
+        title:this.title,
         category:'JS',
-        content:this.value,
+        content:this.content,
       }
-      this.$store.dispatch('addBlog',blog)
+      await this.$store.dispatch('addBlog',blog)//此处使用异步，不然提交失败也会执行后续代码，加了之后，等提交完再提示！！
+      alert('提交成功')
+      this.title = ''
+      this.content = ''
+      this.$router.push({path:'/list'})
     }
   }
 };

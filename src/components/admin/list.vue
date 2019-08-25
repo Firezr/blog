@@ -1,12 +1,13 @@
 <template>
   <div>
-    aa
     <ul v-if="getList">
       <li v-for="item in getList" :key="item.ID">
-        {{item.title}}
-        <p>{{item.content}}</p>
+          <router-link :to="{ path: 'listitem', query: { id: item.ID}}">
+            {{item.title}}
+          </router-link>
       </li>
     </ul>
+    <router-view></router-view>
   </div>
 </template>
 

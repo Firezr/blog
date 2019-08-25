@@ -7,14 +7,15 @@
 */
     -->
     <mavon-editor
-      v-html="value"
-      :subfield="true"
+      v-if="value"
+      v-model="value.content"
+      :subfield="false"
       :defaultOpen="defaultData"
       :toolbarsFlag="false"
       :boxShadow="false"
+      :editable = false
       @change="changeData"
     />
-    <v-btn @click="addBlog">add</v-btn>
   </div>
 </template>
 
@@ -24,21 +25,22 @@ export default {
   data() {
     return {
       //value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
-      value: `<blockquote>
-							<p>你好</p>
-							</blockquote>
-							<p><code>js</code></p>`,
-      defaultData: "edit"
-
+      value: null,
+      defaultData: "preview"
     };
+  },
+  mounted(){
+    let blog = this.$store.getters.getList.find((item)=>{
+      return item.ID === this.$route.query.id
+    })
+    
+    this.value = blog
   },
   methods: {
     changeData(value, render) {
       // console.log(render);
     },
-    async addBlog() {
-      this.$store.dispatch('addBlog',this.value)
-    }
+    
   }
 };
 </script>

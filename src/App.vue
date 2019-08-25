@@ -42,7 +42,7 @@
 
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <v-toolbar-title>Title</v-toolbar-title>
+        <v-toolbar-title>Jarry's Blog</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -70,9 +70,11 @@
 
         <template v-slot:extension>
           <v-tabs align-with-title background-color="transparent">
-            <v-tab>Tab 1</v-tab>
-            <v-tab>Tab 2</v-tab>
-            <v-tab>Tab 3</v-tab>
+            <v-tab>{{route_name==='index'?'index':'write'}}</v-tab>
+            <v-tab @click="loadList()">
+              List
+            </v-tab>
+            <v-tab>Comment</v-tab>
           </v-tabs>
         </template>
       </v-app-bar>
@@ -105,7 +107,9 @@ export default {
   // props: {
   //   // source: String
   // },
-
+  mounted(){
+    this.route_name = this.$route.name
+  },
   data: () => ({
     drawer: null,
     items: [
@@ -114,10 +118,15 @@ export default {
       { title: "Click Me" },
       { title: "Click Me 2" }
     ],
+
+    route_name:'',
   }),
   methods: {
     goHome() {
       this.$router.push({ path: "/" });
+    },
+    loadList(){
+      this.$router.push({ path: "/list" });
     }
     // scroll(e){
     //   console.log(e);

@@ -7,12 +7,13 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   // strict: true,
   state: {
-    list: []
+    list: {}
   },
   mutations: {
-    getList(state,args){
+    getList(state, args) {
       // state.list.push(...args)
-      state.list = args
+      Object.assign(state.list, args)
+      console.log(state.list);
     }
   },
   actions: {
@@ -25,7 +26,7 @@ const store = new Vuex.Store({
           },
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           // mode: "cors", // no-cors, cors, *same-origin
-          
+
           // credentials: "include", // include, same-origin, *omit
           // redirect: "follow", // manual, *follow, error
           // referrer: "no-referrer" // *client, no-referrer
@@ -35,12 +36,15 @@ const store = new Vuex.Store({
         throw error
       }
     },
-    async getList({commit},args){
+    async getList({ commit }, category) {
       try {
-        let res = await (await fetch(`http://localhost:3000/getList?category=${args}`)).json()
+        let res = await (await fetch(`http://localhost:3000/getList?category=${category}`)).json()
+
+        let obj = {}
+        obj[category] = res.data
+        // console.log(obj);
         
-        console.log(res);
-        commit('getList',res.data)
+        commit('getList', obj)
 
       } catch (error) {
         alert('提交失败')
@@ -49,11 +53,11 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    getList(state){
-      if(state.list == []){
-        store.dispatch('getList')
+    getList(state,category) {
+      if (state.list === {}) {
+        store.dispatch('getList',category)
       }
-      return state.list
+      return state.list[category]
     }
   }
 })

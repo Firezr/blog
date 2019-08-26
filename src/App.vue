@@ -25,6 +25,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Welcome to here !</v-toolbar-title>
     </v-app-bar>-->
+
     <v-card class="overflow-hidden">
       <v-app-bar
         absolute
@@ -70,20 +71,14 @@
 
         <template v-slot:extension>
           <v-tabs align-with-title background-color="transparent">
-            <v-tab>{{route_name==='index'?'index':'write'}}</v-tab>
-            <v-tab @click="loadList()">
-              List
-            </v-tab>
+            <v-tab @click="$router.push({ path: route_name==='index'?'/':'/admin/write' })">{{route_name==='index'?'index':'write'}}</v-tab>
+            <v-tab @click="$router.push({ path: '/list' })">List</v-tab>
             <v-tab>Comment</v-tab>
           </v-tabs>
         </template>
       </v-app-bar>
-      <v-sheet
-        id="scrolling-techniques-4"
-        class="overflow-y-auto"
-        max-height="650"
-      >
-        <v-container id="container" min-height='1000'>
+      <v-sheet id="scrolling-techniques-4" class="overflow-y-auto" max-height="650">
+        <v-container id="container" min-height="1000">
           <div style="margin-top:225px">
             <router-view />
           </div>
@@ -107,8 +102,8 @@ export default {
   // props: {
   //   // source: String
   // },
-  mounted(){
-    this.route_name = this.$route.name
+  mounted() {
+    this.route_name = this.$route.name;
   },
   data: () => ({
     drawer: null,
@@ -119,15 +114,13 @@ export default {
       { title: "Click Me 2" }
     ],
 
-    route_name:'',
+    route_name: ""
   }),
   methods: {
     goHome() {
       this.$router.push({ path: "/" });
     },
-    loadList(){
-      this.$router.push({ path: "/list" });
-    }
+    loadList() {}
     // scroll(e){
     //   console.log(e);
 

@@ -7,8 +7,8 @@
 */
     -->
     <mavon-editor
-      v-if="value"
-      v-model="value.content"
+      v-if="blog"
+      v-model="blog.content"
       :subfield="false"
       :defaultOpen="defaultData"
       :toolbarsFlag="false"
@@ -25,16 +25,18 @@ export default {
   data() {
     return {
       //value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
-      value: null,
+      blog: null,
       defaultData: "preview"
     };
   },
   mounted(){
-    let blog = this.$store.getters.getList.find((item)=>{
-      return item.ID === this.$route.query.id
+    let category = this.$route.query.category
+    let id =  this.$route.query.id
+    let blog = this.$store.state.list[category].find((item)=>{
+      return item.ID === id
     })
     
-    this.value = blog
+    this.blog = blog
   },
   methods: {
     changeData(value, render) {

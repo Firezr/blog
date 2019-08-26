@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       defaultData: "preview",
-      categorys:['JS','extra'],
+      categorys:['JS','Vue'],
       title: '',
       content: '',
       

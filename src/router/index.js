@@ -5,9 +5,10 @@ Vue.use(VueRouter)
 
 import Index from '../components/index'
 
+import Login from '../components/admin/login'
 import Write from '../components/admin/write'
-import List from '../components/admin/list'
-import ListItem from '../components/admin/list_item'
+import List from '../components/list'
+import ListItem from '../components/list_item'
 
 
 const router = new VueRouter({
@@ -26,6 +27,11 @@ const router = new VueRouter({
       path: '/listitem',
       name: 'listitem',
       component: ListItem,
+    },
+    {
+      path: '/admin/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/admin/write',

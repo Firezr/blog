@@ -1,13 +1,14 @@
 <template>
   <div>
     <v-card>
-      {{getList}}
       <!-- 列表 https://vuetifyjs.com/zh-Hans/components/expansion-panels -->
       <v-row justify="center" absolute permanent right>
-        <v-expansion-panels popout focusable v-if="blogList">
+        <v-expansion-panels popout focusable>
           <v-expansion-panel v-for="(item) in blogList" :key="item.ID">
             <v-expansion-panel-header>
-              <router-link :to="{ path: 'listitem', query: { category:item.category,id: item.ID}}">{{item.title}}</router-link>
+              <router-link
+                :to="{ path: 'listitem', query: { category:item.category,id: item.ID}}"
+              >{{item.title}}</router-link>
             </v-expansion-panel-header>
             <v-expansion-panel-content>{{item.content}}</v-expansion-panel-content>
           </v-expansion-panel>
@@ -25,7 +26,7 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>Jarry</v-list-item-title>
+              <v-list-item-title>Offline</v-list-item-title>
               <v-list-item-subtitle>Last updated：</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -34,11 +35,7 @@
         <v-divider></v-divider>
 
         <v-list dense>
-          <v-list-item
-            v-for="item in items"
-            :key="item.category"
-            @click="toggleCategory(item)"
-          >
+          <v-list-item v-for="item in items" :key="item.category" @click="toggleCategory(item)">
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -95,17 +92,19 @@ export default {
     },
     //切换文章分类
     async toggleCategory(item) {
-      let category = item.category 
+      let category = item.category;
       if (this.blogs[category] !== this.blogList) {
         await this.$store.dispatch("getList", category);
+
+        this.blogs = this.$store.state.list;
         this.blogList = this.blogs[category];
       }
     }
   },
   computed: {
-    getList() {
-      this.blogs = this.$store.state.list;
-    }
+    // getList() {
+    //   this.blogs = this.$store.state.list;
+    // }
   }
 };
 </script>

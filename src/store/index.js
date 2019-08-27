@@ -17,6 +17,21 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    async login({ commit }, args) {
+      try {
+        let {username,password} = args
+        let res = await (await fetch('http://localhost:3000/login', {
+          body: JSON.stringify(args), 
+          headers: {
+            "content-type": "application/json"
+          },
+          method: "POST",
+        })).json()
+        console.log(res);
+      } catch (error) {
+        throw error
+      }
+    },
     async addBlog({ commit }, args) {
       try {
         await (await fetch('http://localhost:3000/addBlog', {

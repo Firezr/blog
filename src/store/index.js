@@ -7,21 +7,25 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   // strict: true,
   state: {
-    list: {}
+    list: {},
+    categorys: [],
   },
   mutations: {
     getList(state, args) {
       // state.list.push(...args)
       Object.assign(state.list, args)
-      console.log(state.list);
+      // console.log(state.list);
+    },
+    getCategory(state, args) {
+      state.categorys = [...args]
     }
   },
   actions: {
     async login({ commit }, args) {
       try {
-        let {username,password} = args
+        let { username, password } = args
         let res = await (await fetch('http://localhost:3000/login', {
-          body: JSON.stringify(args), 
+          body: JSON.stringify(args),
           headers: {
             "content-type": "application/json"
           },
@@ -29,6 +33,32 @@ const store = new Vuex.Store({
         })).json()
         console.log(res);
       } catch (error) {
+        throw error
+      }
+    },
+    async getCategory({ commit }) {
+      try {
+        let res = await (await fetch(`http://localhost:3000/getCategory`)).json()
+        console.log(res);
+        
+        commit('getCategory', res.categorys)
+      } catch (error) {
+        alert('提交失败')
+        throw error
+      }
+    },
+    async getList({ commit }, category) {
+      try {
+        let res = await (await fetch(`http://localhost:3000/getList?category=${category}`)).json()
+
+        let obj = {}
+        obj[category] = res.data
+        // console.log(obj);
+
+        commit('getList', obj)
+
+      } catch (error) {
+        alert('提交失败')
         throw error
       }
     },
@@ -51,26 +81,21 @@ const store = new Vuex.Store({
         throw error
       }
     },
-    async getList({ commit }, category) {
+    async deleteBlog({ commit }, args) {
+      let { category, id } = args
       try {
-        let res = await (await fetch(`http://localhost:3000/getList?category=${category}`)).json()
-
-        let obj = {}
-        obj[category] = res.data
-        // console.log(obj);
-        
-        commit('getList', obj)
+        let res = await (await fetch(`http://localhost:3000/deleteBlog?category=${category}&id=${id}`)).json()
+        console.log(res);
 
       } catch (error) {
-        alert('提交失败')
         throw error
       }
-    }
+    },
   },
   getters: {
-    getList(state,category) {
+    getList(state, category) {
       if (state.list === {}) {
-        store.dispatch('getList',category)
+        store.dispatch('getList', category)
       }
       return state.list[category]
     }

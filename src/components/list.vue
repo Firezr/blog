@@ -35,13 +35,13 @@
         <v-divider></v-divider>
 
         <v-list dense>
-          <v-list-item v-for="item in items" :key="item.category" @click="toggleCategory(item)">
-            <v-list-item-icon>
+          <v-list-item v-for="item in items" :key="item" @click="toggleCategory(item)">
+            <!-- <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            </v-list-item-icon>-->
 
             <v-list-item-content>
-              <v-list-item-title>{{ item.category }}</v-list-item-title>
+              <v-list-item-title>{{ item }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -64,19 +64,18 @@
     <div class="text-center">
       <v-pagination v-model="page" :length="15" :total-visible="6"></v-pagination>
     </div>
-
-    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { setTimeout } from 'timers';
 export default {
   data() {
     return {
-      items: [
-        { category: "JS", icon: "dashboard" },
-        { category: "Vue", icon: "question_answer" }
-      ],
+      // items: [
+      //   { category: "JS", icon: "dashboard" },
+      //   { category: "Vue", icon: "question_answer" }
+      // ],
       page: 1,
 
       blogs: {}, //所有内容
@@ -84,7 +83,7 @@ export default {
     };
   },
   mounted() {
-    this.toggleCategory(this.items[0]);
+    this.$store.dispatch("getCategory");
   },
   methods: {
     changeData(value, render) {
@@ -92,7 +91,7 @@ export default {
     },
     //切换文章分类
     async toggleCategory(item) {
-      let category = item.category;
+      let category = item;
       if (this.blogs[category] !== this.blogList) {
         await this.$store.dispatch("getList", category);
 
@@ -102,9 +101,15 @@ export default {
     }
   },
   computed: {
-    // getList() {
-    //   this.blogs = this.$store.state.list;
-    // }
+    items() {
+      let categorys = this.$store.state.categorys;
+      if (categorys.length !== 0) {
+        setTimeout(()=>{
+          this.toggleCategory(categorys[0]);
+        },0)
+      }
+      return categorys;
+    }
   }
 };
 </script>

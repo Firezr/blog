@@ -13,36 +13,67 @@
       :defaultOpen="defaultData"
       :toolbarsFlag="false"
       :boxShadow="false"
-      :editable = false
+      :editable="false"
       @change="changeData"
     />
+    <!-- icons https://vuetifyjs.com/zh-Hans/components/icons -->
+    <v-row align="center" justify="center">
+      <v-btn color="primary" @click="editBlog()">
+        <v-icon depressed left>{{icons.mdiPencil}}</v-icon>Edit
+      </v-btn>
+      <v-btn class="ma-2" dark @click="deleteBlog()">
+        <v-icon left>{{ icons.mdiDelete }}</v-icon>Delete
+      </v-btn>
+    </v-row>
   </div>
 </template>
 
 <script>
 import { log } from "util";
+
+import {
+    mdiAccount,
+    mdiPencil,
+    mdiShareVariant,
+    mdiDelete,
+  } from '@mdi/js'
+
 export default {
   data() {
     return {
-      //value的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
       blog: null,
-      defaultData: "preview"
+      defaultData: "preview",
+
+      icons: {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+      },
     };
   },
-  mounted(){
-    let category = this.$route.query.category
-    let id =  this.$route.query.id
-    let blog = this.$store.state.list[category].find((item)=>{
-      return item.ID === id
-    })
-    
-    this.blog = blog
+  mounted() {
+    let category = this.$route.query.category;
+    let id = this.$route.query.id;
+    let blog = this.$store.state.list[category].find(item => {
+      return item.ID === id;
+    });
+
+    this.blog = blog;
   },
   methods: {
     changeData(value, render) {
       // console.log(render);
     },
-    
+
+    editBlog(){
+      this.$router.push({ name: "write" , params:this.blog });
+    },
+    deleteBlog(){
+      let query = this.$route.query
+      this.$store.dispatch('deleteBlog',query)
+      this.$router.push({ path: "/list" });
+    }
   }
 };
 </script>

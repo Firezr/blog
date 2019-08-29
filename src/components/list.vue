@@ -26,7 +26,8 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>Offline</v-list-item-title>
+              <v-list-item-title>{{status}}</v-list-item-title>
+              <v-btn text x-small color="primary" @click="logFn()" absolute right top>{{log}}</v-btn>
               <v-list-item-subtitle>Last updated：</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -68,7 +69,7 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers';
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
@@ -76,19 +77,46 @@ export default {
       //   { category: "JS", icon: "dashboard" },
       //   { category: "Vue", icon: "question_answer" }
       // ],
+      blogs: {}, //所有内容
+      blogList: [], //某一分类下的内容
       page: 1,
 
-      blogs: {}, //所有内容
-      blogList: [] //某一分类下的内容
+      status: "Offline",
+      log: "login"
     };
   },
   mounted() {
+    this.getStatus();
     this.$store.dispatch("getCategory");
   },
   methods: {
     changeData(value, render) {
       // console.log(render);
     },
+
+    //获取是否登录的状态
+    getStatus() {
+      let admin = JSON.parse(localStorage.getItem("admin"));
+      if (admin) {
+        this.status = admin.status;
+        this.log = 'logout'
+      }else{
+        this.status = 'Offline'
+        this.log = 'login'
+      }
+    },
+    //login/logout
+    logFn() {
+      if (this.status === "Offline") {
+        this.log = "logout";
+        this.$router.push({ name: "login" });
+      } else {
+        localStorage.removeItem("admin");
+        this.status = "Offline";
+        this.log = "login";
+      }
+    },
+
     //切换文章分类
     async toggleCategory(item) {
       let category = item;
@@ -104,9 +132,9 @@ export default {
     items() {
       let categorys = this.$store.state.categorys;
       if (categorys.length !== 0) {
-        setTimeout(()=>{
+        setTimeout(() => {
           this.toggleCategory(categorys[0]);
-        },0)
+        }, 0);
       }
       return categorys;
     }

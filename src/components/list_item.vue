@@ -17,7 +17,7 @@
       @change="changeData"
     />
     <!-- icons https://vuetifyjs.com/zh-Hans/components/icons -->
-    <v-row align="center" justify="center">
+    <v-row align="center" justify="center" v-if="status">
       <v-btn color="primary" @click="editBlog()">
         <v-icon depressed left>{{icons.mdiPencil}}</v-icon>Edit
       </v-btn>
@@ -31,12 +31,7 @@
 <script>
 import { log } from "util";
 
-import {
-    mdiAccount,
-    mdiPencil,
-    mdiShareVariant,
-    mdiDelete,
-  } from '@mdi/js'
+import { mdiAccount, mdiPencil, mdiShareVariant, mdiDelete } from "@mdi/js";
 
 export default {
   data() {
@@ -44,34 +39,56 @@ export default {
       blog: null,
       defaultData: "preview",
 
+      status: 0,
       icons: {
         mdiAccount,
         mdiPencil,
         mdiShareVariant,
-        mdiDelete,
-      },
+        mdiDelete
+      }
     };
   },
   mounted() {
-    let category = this.$route.query.category;
-    let id = this.$route.query.id;
-    let blog = this.$store.state.list[category].find(item => {
-      return item.ID === id;
-    });
-
-    this.blog = blog;
+    this.getStatus();
+    this.getBlog();
   },
   methods: {
     changeData(value, render) {
       // console.log(render);
     },
 
-    editBlog(){
-      this.$router.push({ name: "write" , params:this.blog });
+    //获取是否登录的状态
+    getStatus() {
+      let admin = localStorage.admin
+      if (admin) {
+        admin = JSON.parse(admin)
+        switch (admin.status) {
+          case "Offline":
+            this.status = 0;
+            break;
+          case "Online":
+            this.status = 1;
+            break;
+          default:
+            break;
+        }
+      }
     },
-    deleteBlog(){
-      let query = this.$route.query
-      this.$store.dispatch('deleteBlog',query)
+    getBlog() {
+      let category = this.$route.query.category;
+      let id = this.$route.query.id;
+      let blog = this.$store.state.list[category].find(item => {
+        return item.ID === id;
+      });
+
+      this.blog = blog;
+    },
+    editBlog() {
+      this.$router.push({ name: "write", params: this.blog });
+    },
+    deleteBlog() {
+      let query = this.$route.query;
+      this.$store.dispatch("deleteBlog", query);
       this.$router.push({ path: "/list" });
     }
   }

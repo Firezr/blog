@@ -49,7 +49,6 @@ export default {
       type: "success",
       alertMsg: "add success",
 
-      categorys: ["JS", "Vue"],
       blog: {
         title: "",
         category: null,
@@ -73,8 +72,14 @@ export default {
   },
   mounted() {
     this.editBlog();
+    this.$store.dispatch("getCategory");
   },
   watch: {},
+  computed:{
+    categorys() {
+      return this.$store.state.categorys;
+    }
+  },
   methods: {
     // validate() {
     //   if (this.$refs.form.validate()) {

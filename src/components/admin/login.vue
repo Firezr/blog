@@ -1,26 +1,12 @@
 <template>
   <v-app id="inspire">
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            cols="12"
-            sm="8"
-            md="4"
-          >
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar
-                color="primary"
-                dark
-                flat
-              >
-                <v-toolbar-title>Login </v-toolbar-title>
+              <v-toolbar color="primary" dark flat>
+                <v-toolbar-title>Login</v-toolbar-title>
                 <div class="flex-grow-1"></div>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
@@ -32,7 +18,7 @@
                       v-on="on"
                     >
                       <v-icon>mdi-code-tags</v-icon>
-                    </v-btn> -->
+                    </v-btn>-->
                   </template>
                   <span>Source</span>
                 </v-tooltip>
@@ -87,28 +73,38 @@
 </template>
 
 <script>
-  export default {
-    // props: {
-    //   source: String,
-    // },
-    data: () => ({
-      drawer: null,
-      username : null,
-      usernameRules: [
-        v => !!v || "username is required",
-        v => (v && v.length <= 5) || "username must be less than 5 characters"
-      ],
-      passwordRules: [
-        v => !!v || "password is required",
-      ],
-      password:null
-    }),
-    methods:{
-      async login(){
-        await this.$store.dispatch('login',{username:this.username,password:this.password})
-      
-        this.$router.push({ path: "/list" });
+export default {
+  // props: {
+  //   source: String,
+  // },
+  data: () => ({
+    drawer: null,
+    username: null,
+    usernameRules: [
+      v => !!v || "username is required",
+      v => (v && v.length <= 5) || "username must be less than 5 characters"
+    ],
+    passwordRules: [v => !!v || "password is required"],
+    password: null
+  }),
+  methods: {
+    async login() {
+      try {
+        await this.$store.dispatch("login", {
+        username: this.username,
+        password: this.password
+      });
+      } catch (error) {
+        console.error(error)
+        return
       }
+      //成功后执行的代码，放在这里不好使，action里抛错误了，这里依旧会执行！！
+      localStorage.setItem('admin', JSON.stringify({
+        'username': this.username,
+        'status': "Online"
+      }));
+      this.$router.push({ path: "/list" });
     }
   }
+};
 </script>

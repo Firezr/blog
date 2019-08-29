@@ -22,7 +22,7 @@ const store = new Vuex.Store({
   },
   actions: {
     async login({ commit }, args) {
-      try {
+      // try {
         let { username, password } = args
         let res = await (await fetch('http://localhost:3000/login', {
           body: JSON.stringify(args),
@@ -31,10 +31,21 @@ const store = new Vuex.Store({
           },
           method: "POST",
         })).json()
-        console.log(res);
-      } catch (error) {
-        throw error
-      }
+        if(res.error){
+          alert(res.message)
+          throw new Error(res.message)
+        }else{
+          console.log(res);
+          // localStorage.setItem('admin', JSON.stringify({
+          //   'username': this.username,
+          //   'status': "Online"
+          // }));
+          // this.$router.push({ path: "/list" });
+        }
+      // } catch (error) {
+      //   console.error(error)
+      //   return
+      // }
     },
     async getCategory({ commit }) {
       try {
@@ -44,7 +55,7 @@ const store = new Vuex.Store({
         commit('getCategory', res.categorys)
       } catch (error) {
         alert('提交失败')
-        throw error
+        console.error(error)
       }
     },
     async getList({ commit }, category) {
@@ -59,7 +70,7 @@ const store = new Vuex.Store({
 
       } catch (error) {
         alert('提交失败')
-        throw error
+        console.error(error)
       }
     },
     async addBlog({ commit }, args) {
@@ -78,7 +89,7 @@ const store = new Vuex.Store({
         })).json()
 
       } catch (error) {
-        throw error
+        console.error(error)
       }
     },
     async deleteBlog({ commit }, args) {
@@ -88,7 +99,7 @@ const store = new Vuex.Store({
         console.log(res);
 
       } catch (error) {
-        throw error
+        console.error(error)
       }
     },
   },

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { stat } from "fs";
 
 Vue.use(Vuex)
 
@@ -9,6 +10,7 @@ const store = new Vuex.Store({
   state: {
     list: {},
     categorys: [],
+    totalPages:null,
   },
   mutations: {
     getList(state, args) {
@@ -18,6 +20,9 @@ const store = new Vuex.Store({
     },
     getCategory(state, args) {
       state.categorys = [...args]
+    },
+    getPages(state,args){
+      state.totalPages = args
     }
   },
   actions: {
@@ -58,21 +63,24 @@ const store = new Vuex.Store({
         console.error(error)
       }
     },
-    async getList({ commit }, category) {
+    async getList({ commit }, {category,page}) {
       try {
-        let res = await (await fetch(`http://localhost:3000/getList?category=${category}`)).json()
+        let res = await (await fetch(`http://localhost:3000/getList?category=${category}&page=${page}`)).json()
 
         let obj = {}
-        obj[category] = res.data
+        obj[category] = {}
+        obj[category][page] = res.data.value
         // console.log(obj);
 
         commit('getList', obj)
+        commit('getPages',res.data.totalPages)
 
       } catch (error) {
         alert('提交失败')
         console.error(error)
       }
     },
+    
     async addBlog({ commit }, args) {
       try {
         await (await fetch('http://localhost:3000/addBlog', {

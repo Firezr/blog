@@ -63,7 +63,7 @@
 
     <!-- 分页 https://vuetifyjs.com/zh-Hans/components/paginations -->
     <div class="text-center">
-      <v-pagination v-model="page" :length="15" :total-visible="6"></v-pagination>
+      <v-pagination v-model="page" :length="totalPages" :total-visible="6"></v-pagination>
     </div>
   </div>
 </template>
@@ -78,7 +78,8 @@ export default {
       //   { category: "Vue", icon: "question_answer" }
       // ],
       blogs: {}, //所有内容
-      blogList: [], //某一分类下的内容
+      blogList: [], //某一分类某一页下的内容
+      totalPages:1,
       page: 1,
 
       status: "Offline",
@@ -118,26 +119,41 @@ export default {
     },
 
     //切换文章分类
-    async toggleCategory(item) {
-      let category = item;
-      if (this.blogs[category] !== this.blogList) {
-        await this.$store.dispatch("getList", category);
+    async toggleCategory(category,page=1) {
+      // if (this.blogs[category] !== this.blogList) {
+        await this.$store.dispatch("getList", {category,page});
 
         this.blogs = this.$store.state.list;
-        this.blogList = this.blogs[category];
-      }
-    }
+        this.totalPages = this.$store.state.totalPages
+        this.category = category
+        this.blogList = this.blogs[category][page];
+      // }
+    },
+    // togglePage(page){
+    //   if(page === this.page){
+    //     return
+    //   }
+    //   this.$store.dispatch('togglePage',page)
+    // }
   },
   computed: {
     items() {
       let categorys = this.$store.state.categorys;
+      this.category = categorys[0]
       if (categorys.length !== 0) {
         setTimeout(() => {
-          this.toggleCategory(categorys[0]);
+          this.toggleCategory(categorys[0],1);
         }, 0);
       }
       return categorys;
     }
+  },
+  watch:{
+    page(newVal,oldVal){
+      this.toggleCategory(this.category,newVal)
+    }
+
   }
+  
 };
 </script>

@@ -71,7 +71,9 @@
 
         <template v-slot:extension>
           <v-tabs align-with-title background-color="transparent">
-            <v-tab @click="$router.push({ path: route_name==='index'?'/':'/admin/write' })">{{route_name==='index'?'index':'write'}}</v-tab>
+            <v-tab
+              @click="$router.push({ path: route_name==='index'?'/':'/admin/write' })"
+            >{{route_name==='index'?'index':'write'}}</v-tab>
             <v-tab @click="$router.push({ path: '/list' })">List</v-tab>
             <v-tab>Comment</v-tab>
           </v-tabs>
@@ -89,9 +91,33 @@
     <v-content>
       <!-- <router-view /> -->
     </v-content>
-    <v-footer color="indigo" app>
+    
+    <v-bottom-navigation v-model="bottomNav" dark shift>
+      <v-btn>
+        <span>Video</span>
+        <v-icon>mdi-television-play</v-icon>
+      </v-btn>
+
+      <v-btn>
+        <span>Music</span>
+        <v-icon>music_note</v-icon>
+      </v-btn>
+
+      <v-btn>
+        <span>Book</span>
+        <v-icon>mdi-book</v-icon>
+      </v-btn>
+
+      <v-btn>
+        <span>Image</span>
+        <v-icon>mdi-image</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+    <!-- <v-footer color="indigo" app>
       <span class="white--text">&copy; 2019</span>
-    </v-footer>
+      <span >制作 于北京&copy; 2019</span>
+      
+    </v-footer> -->
   </v-app>
 </template>
 
@@ -114,6 +140,8 @@ export default {
       { title: "Click Me 2" }
     ],
 
+    bottomNav: 3,
+
     route_name: ""
   }),
   methods: {
@@ -126,6 +154,16 @@ export default {
 
     //   document.querySelector('#container').style.marginTop = e.scrollTop
     // }
+  },
+  computed: {
+    color () {
+        switch (this.bottomNav) {
+          case 0: return 'blue-grey'
+          case 1: return 'teal'
+          case 2: return 'brown'
+          case 3: return 'indigo'
+        }
+      },
   }
 };
 </script>

@@ -92,7 +92,7 @@
       <!-- <router-view /> -->
     </v-content>
     
-    <v-bottom-navigation v-model="bottomNav" dark shift>
+    <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Video</span>
         <v-icon>mdi-television-play</v-icon>
@@ -112,12 +112,12 @@
         <span>Image</span>
         <v-icon>mdi-image</v-icon>
       </v-btn>
-    </v-bottom-navigation>
-    <!-- <v-footer color="indigo" app>
+    </v-bottom-navigation> -->
+    <v-footer color="indigo" app>
       <span class="white--text">&copy; 2019</span>
-      <span >制作 于北京&copy; 2019</span>
+      <span >制作 于北京</span>
       
-    </v-footer> -->
+    </v-footer>
   </v-app>
 </template>
 

@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div v-if="blog">
+    <h2>{{blog.title}}</h2>
+    <p>{{blog.date}}</p>
     <!-- /**
 * :subfield="false"  ----- true： 双栏(编辑预览同屏)， false： 单栏(编辑预览分屏)
 * :defaultOpen="defaultData" ----- edit： 默认展示编辑区域 ， preview： 默认展示预览区域 , 其他 = edit
@@ -7,7 +9,6 @@
 */
     -->
     <mavon-editor
-      v-if="blog"
       v-model="blog.content"
       :subfield="false"
       :defaultOpen="defaultData"

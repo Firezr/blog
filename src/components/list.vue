@@ -8,7 +8,7 @@
             <v-expansion-panel-header>
               <router-link
                 :to="{ path: 'listitem', query: { category:item.category,page:page,id: item.ID}}"
-              >{{item.title}}</router-link>
+              >{{item.title}}---------{{item.date}}</router-link>
             </v-expansion-panel-header>
             <v-expansion-panel-content>{{item.content}}</v-expansion-panel-content>
           </v-expansion-panel>

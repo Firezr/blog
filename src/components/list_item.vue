@@ -75,9 +75,10 @@ export default {
       }
     },
     getBlog() {
-      let category = this.$route.query.category;
-      let id = this.$route.query.id;
-      let blog = this.$store.state.list[category].find(item => {
+      let {category,page,id} = this.$route.query;
+      console.log(this.$route.query);
+      
+      let blog = this.$store.state.list[category][page].find(item => {
         return item.ID === id;
       });
 

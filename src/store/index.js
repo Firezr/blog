@@ -67,13 +67,13 @@ const store = new Vuex.Store({
       try {
         let res = await (await fetch(`http://localhost:3000/getList?category=${category}&page=${page}`)).json()
 
-        let obj = {}
-        obj[category] = {}
-        obj[category][page] = res.data.value
-        // console.log(obj);
+        let list = {}
+        list[category] = {}
+        list[category][page] = res.obj.value
+        console.log(res);
 
-        commit('getList', obj)
-        commit('getPages',res.data.totalPages)
+        commit('getList', list)
+        commit('getPages',res.obj.totalPages)
 
       } catch (error) {
         alert('提交失败')

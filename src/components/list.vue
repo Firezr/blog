@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-card>
+    <v-card min-height="200">
       <!-- 列表 https://vuetifyjs.com/zh-Hans/components/expansion-panels -->
       <v-row justify="center" absolute permanent right>
         <v-expansion-panels popout focusable>
           <v-expansion-panel v-for="(item) in blogList" :key="item.ID">
             <v-expansion-panel-header>
               <router-link
-                :to="{ path: 'listitem', query: { category:item.category,id: item.ID}}"
+                :to="{ path: 'listitem', query: { category:item.category,page:page,id: item.ID}}"
               >{{item.title}}</router-link>
             </v-expansion-panel-header>
             <v-expansion-panel-content>{{item.content}}</v-expansion-panel-content>
@@ -18,7 +18,7 @@
       <!-- 分类 https://vuetifyjs.com/zh-Hans/components/navigation-drawers -->
       <v-navigation-drawer absolute permanent right>
         <template v-slot:prepend>
-          <v-list-item two-line>
+          <v-list-item two-line >
             <v-list-item-avatar>
               <img
                 src="https://vignette.wikia.nocookie.net/onepiece/images/8/86/2%E5%B9%B4%E5%BE%8C%E9%A6%99%E5%90%89%E5%A3%AB.png/revision/latest?cb=20170124041358&path-prefix=zh"
@@ -63,7 +63,7 @@
 
     <!-- 分页 https://vuetifyjs.com/zh-Hans/components/paginations -->
     <div class="text-center">
-      <v-pagination v-model="page" :length="totalPages" :total-visible="6"></v-pagination>
+      <v-pagination v-model="page" :length="totalPages" :total-visible="totalPages<5?totalPages:5"></v-pagination>
     </div>
   </div>
 </template>

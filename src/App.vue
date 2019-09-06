@@ -41,7 +41,7 @@
           <v-img v-bind="props" gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"></v-img>
         </template>
 
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
         <v-toolbar-title>Jarry's Blog</v-toolbar-title>
 
@@ -75,11 +75,11 @@
               @click="$router.push({ path: route_name==='index'?'/':'/admin/write' })"
             >{{route_name==='index'?'index':'write'}}</v-tab>
             <v-tab @click="$router.push({ path: '/list' })">List</v-tab>
-            <v-tab>Comment</v-tab>
+            <v-tab @click="$router.push({ path: '/all' })">Comment</v-tab>
           </v-tabs>
         </template>
       </v-app-bar>
-      <v-sheet id="scrolling-techniques-4" class="overflow-y-auto" max-height="650">
+      <v-sheet id="scrolling-techniques-4" class="overflow-y-auto" min-height="882">
         <v-container id="container" min-height="1000">
           <div style="margin-top:225px">
             <router-view />
@@ -91,7 +91,7 @@
     <v-content>
       <!-- <router-view /> -->
     </v-content>
-    
+
     <!-- <v-bottom-navigation v-model="bottomNav" dark shift>
       <v-btn>
         <span>Video</span>
@@ -112,11 +112,10 @@
         <span>Image</span>
         <v-icon>mdi-image</v-icon>
       </v-btn>
-    </v-bottom-navigation> -->
+    </v-bottom-navigation>-->
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2019</span>
-      <span >制作 于北京</span>
-      
+      <span>制作 于北京</span>
     </v-footer>
   </v-app>
 </template>
@@ -131,13 +130,28 @@ export default {
   mounted() {
     this.route_name = this.$route.name;
   },
+  // data() {
+  //   return {
+  //     drawer: null,
+  //     items: [
+  //       { title: "Github" },
+  //       { title: "Github" },
+  //       { title: "Github" },
+  //       { title: "Github" },
+  //     ],
+
+  //     bottomNav: 3,
+
+  //     route_name: ""
+  //   };
+  // },
   data: () => ({
     drawer: null,
     items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" }
+      { title: "Github" },
+      { title: "Github" },
+      { title: "Github" },
+      { title: "Github" }
     ],
 
     bottomNav: 3,
@@ -156,14 +170,18 @@ export default {
     // }
   },
   computed: {
-    color () {
-        switch (this.bottomNav) {
-          case 0: return 'blue-grey'
-          case 1: return 'teal'
-          case 2: return 'brown'
-          case 3: return 'indigo'
-        }
-      },
+    color() {
+      switch (this.bottomNav) {
+        case 0:
+          return "blue-grey";
+        case 1:
+          return "teal";
+        case 2:
+          return "brown";
+        case 3:
+          return "indigo";
+      }
+    }
   }
 };
 </script>

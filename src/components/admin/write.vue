@@ -117,8 +117,7 @@ export default {
       this.$router.push({ path: "/list" });
     },
     editBlog() {
-      if (this.$route.params) {
-        
+      if (Object.keys(this.$route.params).length > 0) {
         this.blog = this.$route.params
         console.log(this.blog);
 

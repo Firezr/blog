@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { stat } from "fs";
+// import { stat } from "fs";
 
 Vue.use(Vuex)
 
@@ -55,7 +55,7 @@ const store = new Vuex.Store({
     async getCategory({ commit }) {
       try {
         let res = await (await fetch(`http://localhost:3000/getCategory`)).json()
-        console.log(res);
+        // console.log(res);
         
         commit('getCategory', res.categorys)
       } catch (error) {
@@ -70,7 +70,7 @@ const store = new Vuex.Store({
         let list = {}
         list[category] = {}
         list[category][page] = res.obj.value
-        console.log(res);
+        // console.log(res);
 
         commit('getList', list)
         commit('getPages',res.obj.totalPages)
@@ -104,7 +104,7 @@ const store = new Vuex.Store({
       let { category, id } = args
       try {
         let res = await (await fetch(`http://localhost:3000/deleteBlog?category=${category}&id=${id}`)).json()
-        console.log(res);
+        // console.log(res);
 
       } catch (error) {
         console.error(error)

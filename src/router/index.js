@@ -7,8 +7,9 @@ import Index from '../components/index'
 
 import Login from '../components/admin/login'
 import Write from '../components/admin/write'
-import List from '../components/list'
-import ListItem from '../components/list_item'
+import List from '../components/list/list'
+import ListItem from '../components/list/list_item'
+import All from '../components/all/all'
 
 
 const router = new VueRouter({
@@ -27,6 +28,11 @@ const router = new VueRouter({
       path: '/listitem',
       name: 'listitem',
       component: ListItem,
+    },
+    {
+      path: '/all',
+      name: 'all',
+      component: All,
     },
     {
       path: '/admin/login',
